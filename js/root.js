@@ -474,6 +474,8 @@ root.Carousel = (function() {
 
                 this.touchObject.startX = event.originalEvent.touches[0].pageX;
                 this.touchObject.startY = event.originalEvent.touches[0].pageY;
+                this.touchObject.curX = event.originalEvent.touches[0].pageX;
+                this.touchObject.curY = event.originalEvent.touches[0].pageY;
 
             } else {
 
