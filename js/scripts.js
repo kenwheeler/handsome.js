@@ -1,3 +1,3 @@
 $(document).ready(function(){
-	$('.slider').carousel({dots: true, infinite: true, speed: 500});
+	$('.slider').carousel({dots: true, infinite: true, speed: 200});
 });

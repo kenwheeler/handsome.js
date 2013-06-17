@@ -23,7 +23,7 @@ Features:
 
 */
 
-/*global window, $, alert */
+/*global window, $, alert, setInterval, clearInterval */
 
 var root = window.root || {};
 
@@ -54,6 +54,7 @@ dots: true|false
 arrows: true|false
 infinite: true|false
 speed: int
+swipable: true|false
 
 Usage:
 
@@ -69,17 +70,20 @@ root.Carousel = (function() {
 
         var defaults = {
             autoplay: false,
-            autoplaySpeed: 2000,
+            autoplaySpeed: 3000,
             dots: false,
             arrows: true,
             infinite: true,
-            speed: 500,
+            speed: 300,
             swipable: true
         };
 
+        this.autoPlayTimer = null;
         this.currentSlide = 0;
         this.currentLeft = null;
+        this.direction = 1;
         this.dots = null;
+        this.loadIndex = 0;
         this.nextArrow = null;
         this.prevArrow = null;
         this.slideCount = null;
@@ -97,6 +101,7 @@ root.Carousel = (function() {
         this.changeSlide = functionBinder(this.changeSlide, this);
         this.setPosition = functionBinder(this.setPosition, this);
         this.swipeHandler = functionBinder(this.swipeHandler, this);
+        this.autoPlayIterator = functionBinder(this.autoPlayIterator, this);
 
         this.init();
 
@@ -112,6 +117,44 @@ root.Carousel = (function() {
             this.setPosition();
             this.intializeEvents();
             this.startLoad();
+
+        }
+
+    };
+
+    Carousel.prototype.autoPlay = function() {
+
+        this.autoPlayTimer = setInterval(this.autoPlayIterator, this.options.autoplaySpeed);
+
+    };
+
+    Carousel.prototype.autoPlayIterator = function() {
+
+        if (this.options.infinite === false) {
+
+            if (this.direction === 1) {
+
+                if ((this.currentSlide + 1) === this.slideCount - 1) {
+                    this.direction = 0;
+                }
+
+                this.slideHandler(this.currentSlide + 1);
+
+            } else {
+
+                if ((this.currentSlide - 1 === 0)) {
+
+                    this.direction = 1;
+
+                }
+
+                this.slideHandler(this.currentSlide - 1);
+
+            }
+
+        } else {
+
+            this.slideHandler(this.currentSlide + 1);
 
         }
 
@@ -138,24 +181,50 @@ root.Carousel = (function() {
 
     };
 
+    Carousel.prototype.checkLoad = function() {
+
+        var self = this, totalImages = null;
+
+        if (this.options.infinite === true) {
+            totalImages = self.slideCount + 2;
+        } else {
+            totalImages = self.slideCount;
+        }
+
+        if (self.loadIndex === totalImages) {
+
+            self.list.find('img').animate({ opacity: 1 }, this.options.speed);
+
+            if (self.options.arrows === true) {
+
+                self.prevArrow.show();
+                self.nextArrow.show();
+
+            }
+
+            if (self.options.dots === true) {
+
+                self.dots.show();
+
+            }
+
+            self.slider.removeClass('bt-loading');
+
+            if (self.options.autoplay === true) {
+
+                self.autoPlay();
+
+            }
+
+        }
+
+    };
+
     Carousel.prototype.stopLoad = function() {
 
-        this.list.find('img').animate({ opacity: 1 }, this.options.speed);
+        this.loadIndex += 1;
 
-        if (this.options.arrows === true) {
-
-            this.prevArrow.show();
-            this.nextArrow.show();
-
-        }
-
-        if (this.options.dots === true) {
-
-            this.dots.show();
-
-        }
-
-        this.slider.removeClass('bt-loading');
+        this.checkLoad();
 
     };
 
@@ -299,6 +368,10 @@ root.Carousel = (function() {
 
         targetLeft = ((targetSlide * this.sliderWidth) * -1) + this.slideOffset;
 
+        if (self.options.autoplay === true) {
+            clearInterval(this.autoPlayTimer);
+        }
+
         if (targetSlide < 0) {
 
             if (this.options.infinite === true) {
@@ -308,8 +381,13 @@ root.Carousel = (function() {
                 }, self.options.speed, function() {
                     self.currentSlide = self.slideCount - 1;
                     self.setPosition();
+
                     if (self.options.dots) {
                         self.updateDots();
+                    }
+
+                    if (self.options.autoplay === true) {
+                        self.autoPlay();
                     }
                 });
             } else {
@@ -333,6 +411,10 @@ root.Carousel = (function() {
                         self.updateDots();
                     }
 
+                    if (self.options.autoplay === true) {
+                        self.autoPlay();
+                    }
+
                 });
 
             } else {
@@ -347,9 +429,15 @@ root.Carousel = (function() {
                 left: targetLeft
             }, self.options.speed, function() {
                 self.currentSlide = targetSlide;
+
                 if (self.options.dots) {
                     self.updateDots();
                 }
+
+                if (self.options.autoplay === true) {
+                    self.autoPlay();
+                }
+
                 if (self.options.arrows === true && self.options.infinite !== true) {
                     if (self.currentSlide === 0) {
                         self.prevArrow.addClass('disabled');
