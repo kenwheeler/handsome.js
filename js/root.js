@@ -369,6 +369,8 @@ root.Carousel = (function() {
 
             this.list.on('touchend', {action: 'end'}, this.swipeHandler);
 
+            $(window).bind('orientationchange', this.setPosition);
+
         }
 
         $(window).on('resize', this.setPosition);
