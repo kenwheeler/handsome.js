@@ -1,6 +1,5 @@
-# root.js
-
-=============
+root.js
+-------
 
 [1]: <https://github.com/kdubbicles/root-js>
 
