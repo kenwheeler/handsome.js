@@ -1,5 +1,5 @@
-[root.js
-][1]
+# root.js
+
 =============
 
 [1]: <https://github.com/kdubbicles/root-js>
@@ -34,8 +34,7 @@ Carousel
 
 ### Demo
 
-[^2]: <http://www.dubmediagroup.com/root-js/  
->
+[Demo](http://www.dubmediagroup.com/root-js/)
 
 ### Options
 
