@@ -16,10 +16,9 @@ Version: 1.0b
 Features:
 
 1. Responsive, swipeable Carousel
-2. CSS3 animate extension *Coming Soon*
-3. Custom selects *Coming Soon*
-4. Custom radios & checkboxes *Coming Soon*
-5. Etc...
+2. Custom selects *Coming Soon*
+3. Custom radios & checkboxes *Coming Soon*
+4. And much more...
 
 */
 
@@ -48,13 +47,20 @@ var functionBinder = function(fn, me) {
 
 Options:
 
-autoplay: true|false
-autoplaySpeed: int
-dots: true|false
-arrows: true|false
-infinite: true|false
-speed: int
-swipable: true|false
+autoplay: true|false - (default: false)- Enables auto play of slides
+
+autoplaySpeed: int - (default:  3000) - Auto play change interval
+
+dots: true|false - (default:  false) - Current slide indicator dots
+
+arrows: true|false - (default: true) - Next/Prev arrows
+
+infinite: true|false - (default: true) - Infinite looping
+
+speed: int - (default: 300) - Transition speed
+
+swipe: true|false - (default: true) - Enables touch swipe
+
 
 Usage:
 
@@ -75,7 +81,7 @@ root.Carousel = (function() {
             arrows: true,
             infinite: true,
             speed: 300,
-            swipable: true
+            swipe: true
         };
 
         this.animType = null;
@@ -355,7 +361,7 @@ root.Carousel = (function() {
 
         }
 
-        if (this.options.swipable === true) {
+        if (this.options.swipe === true) {
 
             this.list.on('touchstart', {action: 'start'}, this.swipeHandler);
 
