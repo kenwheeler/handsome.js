@@ -23,7 +23,7 @@ Features:
 
 */
 
-/*global window, $, alert, setInterval, clearInterval */
+/*global window, document, $, setInterval, clearInterval */
 
 var root = window.root || {};
 
@@ -78,6 +78,7 @@ root.Carousel = (function() {
             swipable: true
         };
 
+        this.animType = null;
         this.autoPlayTimer = null;
         this.currentSlide = 0;
         this.currentLeft = null;
@@ -93,8 +94,10 @@ root.Carousel = (function() {
         this.sliding = false;
         this.slideOffset = 0;
         this.slider = $(element);
+        this.swipeLeft = null;
         this.list = null;
         this.touchObject = {};
+        this.transformsEnabled = false;
 
         this.options = $.extend({}, defaults, options);
 
@@ -114,9 +117,34 @@ root.Carousel = (function() {
             $(this.slider).addClass('sliderInitialized');
             this.setValues();
             this.buildOut();
+            this.getAnimType();
             this.setPosition();
             this.intializeEvents();
             this.startLoad();
+
+        }
+
+    };
+
+    Carousel.prototype.getAnimType = function() {
+
+        if (document.body.style.MozTransform !== undefined) {
+
+            this.animType = 'MozTransform';
+
+        } else if (document.body.style.webkitTransform !== undefined) {
+
+            this.animType = "webkitTransform";
+
+        } else if (document.body.style.msTransform !== undefined) {
+
+            this.animType = "msTransform";
+
+        }
+
+        if (this.animType !== null) {
+
+            this.transformsEnabled = true;
 
         }
 
@@ -192,6 +220,8 @@ root.Carousel = (function() {
         }
 
         if (self.loadIndex === totalImages) {
+
+            self.setPosition();
 
             self.list.find('img').animate({ opacity: 1 }, this.options.speed);
 
@@ -285,6 +315,8 @@ root.Carousel = (function() {
 
     Carousel.prototype.setPosition = function() {
 
+        var animProps = {}, targetLeft = ((this.currentSlide * this.sliderWidth) * -1) + this.slideOffset;
+
         this.setValues();
         this.setDimensions();
 
@@ -293,8 +325,16 @@ root.Carousel = (function() {
 
         }
 
-        var targetLeft = ((this.currentSlide * this.sliderWidth) * -1) + this.slideOffset;
-        this.slideTrack.css('left', targetLeft);
+        if (this.transformsEnabled === false) {
+
+            this.slideTrack.css('left', targetLeft);
+
+        } else {
+
+            animProps[this.animType] = "translate(" + targetLeft + "px, 0px)";
+            this.slideTrack.css(animProps);
+
+        }
 
     };
 
@@ -317,11 +357,11 @@ root.Carousel = (function() {
 
         if (this.options.swipable === true) {
 
-            this.slider.on('touchstart', {action: 'start'}, this.swipeHandler);
+            this.list.on('touchstart', {action: 'start'}, this.swipeHandler);
 
-            this.slider.on('touchmove', {action: 'move'}, this.swipeHandler);
+            this.list.on('touchmove', {action: 'move'}, this.swipeHandler);
 
-            this.slider.on('touchend', {action: 'end'}, this.swipeHandler);
+            this.list.on('touchend', {action: 'end'}, this.swipeHandler);
 
         }
 
@@ -362,34 +402,76 @@ root.Carousel = (function() {
 
     Carousel.prototype.slideHandler = function(index) {
 
-        var targetSlide, targetLeft = null, self = this;
+        var animProps = {}, targetSlide, slideLeft, targetLeft = null, self = this;
 
         targetSlide = index;
-
         targetLeft = ((targetSlide * this.sliderWidth) * -1) + this.slideOffset;
+        slideLeft = ((this.currentSlide * this.sliderWidth) * -1) + this.slideOffset;
 
         if (self.options.autoplay === true) {
             clearInterval(this.autoPlayTimer);
+        }
+
+        if (this.swipeLeft === null) {
+            this.currentLeft = slideLeft;
+        } else {
+            this.currentLeft = this.swipeLeft;
         }
 
         if (targetSlide < 0) {
 
             if (this.options.infinite === true) {
 
-                this.slideTrack.animate({
-                    left: targetLeft
-                }, self.options.speed, function() {
-                    self.currentSlide = self.slideCount - 1;
-                    self.setPosition();
+                if (this.transformsEnabled === false) {
 
-                    if (self.options.dots) {
-                        self.updateDots();
-                    }
+                    this.slideTrack.animate({
+                        left: targetLeft
+                    }, self.options.speed, function() {
+                        self.currentSlide = self.slideCount - 1;
+                        self.setPosition();
 
-                    if (self.options.autoplay === true) {
-                        self.autoPlay();
-                    }
-                });
+                        if (self.options.dots) {
+                            self.updateDots();
+                        }
+
+                        if (self.options.autoplay === true) {
+                            self.autoPlay();
+                        }
+                    });
+
+                } else {
+
+                    $({animStart: this.currentLeft}).animate({
+                        animStart: targetLeft
+                    }, {
+                        duration:  self.options.speed,
+                        step: function(now) {
+                            animProps[self.animType] = "translate(" + now + "px, 0px)";
+                            self.slideTrack.css(animProps);
+                        },
+                        complete: function() {
+
+                            self.currentSlide = self.slideCount - 1;
+
+                            self.setPosition();
+
+                            if (self.swipeLeft !== null) {
+                                self.swipeLeft = null;
+                            }
+
+                            if (self.options.dots) {
+                                self.updateDots();
+                            }
+
+                            if (self.options.autoplay === true) {
+                                self.autoPlay();
+                            }
+                        }
+                    });
+
+                }
+
+
             } else {
 
                 return false;
@@ -400,22 +482,56 @@ root.Carousel = (function() {
 
             if (this.options.infinite === true) {
 
-                this.slideTrack.animate({
-                    left: targetLeft
-                }, self.options.speed, function() {
+                if (this.transformsEnabled === false) {
 
-                    self.currentSlide = 0;
-                    self.setPosition();
+                    this.slideTrack.animate({
+                        left: targetLeft
+                    }, self.options.speed, function() {
 
-                    if (self.options.dots) {
-                        self.updateDots();
-                    }
+                        self.currentSlide = 0;
+                        self.setPosition();
 
-                    if (self.options.autoplay === true) {
-                        self.autoPlay();
-                    }
+                        if (self.options.dots) {
+                            self.updateDots();
+                        }
 
-                });
+                        if (self.options.autoplay === true) {
+                            self.autoPlay();
+                        }
+
+                    });
+
+                } else {
+
+                    $({animStart: this.currentLeft}).animate({
+                        animStart: targetLeft
+                    }, {
+                        duration:  self.options.speed,
+                        step: function(now) {
+                            animProps[self.animType] = "translate(" + now + "px, 0px)";
+                            self.slideTrack.css(animProps);
+                        },
+                        complete: function() {
+
+                            self.currentSlide = 0;
+
+                            self.setPosition();
+
+                            if (self.swipeLeft !== null) {
+                                self.swipeLeft = null;
+                            }
+
+                            if (self.options.dots) {
+                                self.updateDots();
+                            }
+
+                            if (self.options.autoplay === true) {
+                                self.autoPlay();
+                            }
+                        }
+                    });
+
+                }
 
             } else {
 
@@ -425,30 +541,73 @@ root.Carousel = (function() {
 
         } else {
 
-            this.slideTrack.animate({
-                left: targetLeft
-            }, self.options.speed, function() {
-                self.currentSlide = targetSlide;
+            if (this.transformsEnabled === false) {
 
-                if (self.options.dots) {
-                    self.updateDots();
-                }
+                this.slideTrack.animate({
+                    left: targetLeft
+                }, self.options.speed, function() {
+                    self.currentSlide = targetSlide;
 
-                if (self.options.autoplay === true) {
-                    self.autoPlay();
-                }
-
-                if (self.options.arrows === true && self.options.infinite !== true) {
-                    if (self.currentSlide === 0) {
-                        self.prevArrow.addClass('disabled');
-                    } else if (self.currentSlide === self.slideCount - 1) {
-                        self.nextArrow.addClass('disabled');
-                    } else {
-                        self.prevArrow.removeClass('disabled');
-                        self.nextArrow.removeClass('disabled');
+                    if (self.options.dots) {
+                        self.updateDots();
                     }
-                }
-            });
+
+                    if (self.options.autoplay === true) {
+                        self.autoPlay();
+                    }
+
+                    if (self.options.arrows === true && self.options.infinite !== true) {
+                        if (self.currentSlide === 0) {
+                            self.prevArrow.addClass('disabled');
+                        } else if (self.currentSlide === self.slideCount - 1) {
+                            self.nextArrow.addClass('disabled');
+                        } else {
+                            self.prevArrow.removeClass('disabled');
+                            self.nextArrow.removeClass('disabled');
+                        }
+                    }
+                });
+
+            } else {
+
+                $({animStart: this.currentLeft}).animate({
+                    animStart: targetLeft
+                }, {
+                    duration:  self.options.speed,
+                    step: function(now) {
+                        animProps[self.animType] = "translate(" + now + "px, 0px)";
+                        self.slideTrack.css(animProps);
+                    },
+                    complete: function() {
+
+                        self.currentSlide = targetSlide;
+
+                        if (self.swipeLeft !== null) {
+                            self.swipeLeft = null;
+                        }
+
+                        if (self.options.dots) {
+                            self.updateDots();
+                        }
+
+                        if (self.options.autoplay === true) {
+                            self.autoPlay();
+                        }
+
+                        if (self.options.arrows === true && self.options.infinite !== true) {
+                            if (self.currentSlide === 0) {
+                                self.prevArrow.addClass('disabled');
+                            } else if (self.currentSlide === self.slideCount - 1) {
+                                self.nextArrow.addClass('disabled');
+                            } else {
+                                self.prevArrow.removeClass('disabled');
+                                self.nextArrow.removeClass('disabled');
+                            }
+                        }
+                    }
+                });
+
+            }
 
         }
 
@@ -456,7 +615,7 @@ root.Carousel = (function() {
 
     Carousel.prototype.swipeHandler = function(event) {
 
-        var curLeft, newLeft = null;
+        var animProps = {}, curLeft, newLeft = null;
 
         curLeft = ((this.currentSlide * this.sliderWidth) * -1) + this.slideOffset;
 
@@ -497,12 +656,24 @@ root.Carousel = (function() {
                 if (this.touchObject.curX > this.touchObject.startX) {
 
                     newLeft = curLeft + this.touchObject.swipeLength;
-                    this.slideTrack.css('left', newLeft);
+                    if (this.transformsEnabled === false) {
+                        this.slideTrack.css('left', newLeft);
+                    } else {
+                        animProps[this.animType] = "translate(" + newLeft + "px, 0px)";
+                        this.slideTrack.css(animProps);
+                        this.swipeLeft = newLeft;
+                    }
 
                 } else {
 
                     newLeft = curLeft - this.touchObject.swipeLength;
-                    this.slideTrack.css('left', newLeft);
+                    if (this.transformsEnabled === false) {
+                        this.slideTrack.css('left', newLeft);
+                    } else {
+                        animProps[this.animType] = "translate(" + newLeft + "px, 0px)";
+                        this.slideTrack.css(animProps);
+                        this.swipeLeft = newLeft;
+                    }
 
                 }
 
@@ -525,12 +696,14 @@ root.Carousel = (function() {
                     case 'left':
 
                         this.slideHandler(this.currentSlide + 1);
+                        this.touchObject = {};
 
                         break;
 
                     case 'right':
 
                         this.slideHandler(this.currentSlide - 1);
+                        this.touchObject = {};
 
                         break;
 
@@ -539,6 +712,7 @@ root.Carousel = (function() {
                 } else {
 
                     this.slideHandler(this.currentSlide);
+                    this.touchObject = {};
 
                 }
 
