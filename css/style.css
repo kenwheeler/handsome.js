@@ -1,20 +1,123 @@
+@font-face {
+    font-family: LeagueGothic;
+    src: url('../fonts/League-Gothic/LeagueGothic-Regular.otf');
+}
+
+@font-face {
+    font-family: Pacifico;
+    src: url('../fonts/pacifico/Pacifico.ttf');
+}
+
 html,body {
+    background: #CCCCCC;
 	margin: 0;
 	padding: 0;
     width: 100%;
     height: 100%;
+    font-family: LeagueGothic, sans-serif;
+    text-align: center;
+}
+
+.content {
+    margin: 20px;
+}
+
+h1 {
+    margin: 20px auto 0px;
+    text-align: center;
+    font-size: 72px;
+    font-weight: normal;
+    color: #AA0000;
+    text-shadow: 1px 1px 0px #dddddd;
+}
+
+h1.title {
+    font-size: 96px;
+}
+
+h2 {
+    font-size: 32px;
+    margin: 10px auto 10px;
+    font-weight: normal;
+    font-family: Pacifico;
+    font-style: italic;
+    color: #AA0000;
+    text-shadow: 1px 1px 0px #dddddd;
+}
+
+h3 {
+    font-size: 24px;
+    margin: 0px auto 10px;
+    font-weight: normal;
+    font-family: Pacifico;
+    font-style: italic;
+    color: #444444;
+    text-shadow: 1px 1px 0px #dddddd;
+}
+
+code {
+    display: inline-block;
+    font-family: Courier, Courier New, monospace;
+    padding: 10px 20px;
+    background: white;
+    box-shadow: 0 8px 6px -8px black;
+    margin: 0px 0px 20px; 
+}
+
+a.button {
+    color: #aa0000;
+    padding: 10px 20px;
+    margin: 0px 10px 10px;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: normal;
+    font-family: Pacifico;
+    text-shadow: 1px 1px 0px #dddddd;
+}
+
+.bt-list { background-color: #fff; }
+
+.bt-list {
+    z-index: 9999;
+    border: 4px solid white;
+    box-shadow:  0 8px 6px -8px black;
 }
 
 .slider li img {
+    position: relative;
 	width: 100%;
+    z-index: 8888;
+}
+
+.bt-checkbox { 
+    margin: 20px auto;
+    border: 2px solid #AA0000;
+    border-radius: 5px;
+    box-shadow: 0 8px 8px -8px black;
+}
+
+.bt-radio {
+    border-radius: 20px;
+    margin: 20px 10px;
+    border: 2px solid #AA0000;
+    box-shadow: 0 6px 6px -6px black;
+}
+
+.bt-radio-trigger.checked {
 }
 
 @media only screen and (min-width: 1025px) {
 
+    .content {
+        width: 800px;
+        margin: auto;
+    }
+
     .bt-slider {
     	position: relative;
     	width: 800px;
-    	margin: 100px auto;
+    	margin: 20px auto;
     }
 
 }

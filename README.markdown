@@ -1,10 +1,9 @@
-root.js
+handsome.js
 -------
 
-[1]: <https://github.com/kdubbicles/root-js>
+[1]: <https://github.com/kdubbicles/handsome.js>
 
-root.js is a UI utility library to handle all of the elements that you keep
-rewriting on every project from scratch.
+## A UI Toolkit For Sexy Individuals
 
 Author: Ken Wheeler
 
@@ -33,7 +32,7 @@ Carousel
 
 ### Demo
 
-[Demo](http://www.dubmediagroup.com/root-js/)
+[Demo](http://www.dubmediagroup.com/handsomejs/)
 
 ### Options
 

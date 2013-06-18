@@ -1,15 +1,23 @@
 <html>
 <head>
-	<title>root.js</title>
+	<title>handsome.js</title>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="js/root.js"></script>
+	<script type="text/javascript" src="js/handsome.min.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/root.css"/>
+	<link rel="stylesheet" type="text/css" href="css/handsome.css"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 	<div class="content">
+
+		<h1 class="title">HANDSOME.JS</h1>
+		<h3>A UI Toolkit For Sexy Individuals</h3>
+
+		<hr/>
+		
+		<h1>CAROUSEL</h1>
+		<h3>Responsive Touch Carousel Plugin</h3>
 		<div class="slider">
 			<ul>
 				<li><img src="http://interfacelift.com/wallpaper/D47cd523/03293_calmblue_1024x600.jpg"/></li>
@@ -18,6 +26,47 @@
 				<li><img src="http://interfacelift.com/wallpaper/D47cd523/03290_formula1grandprix2013montecarlofever_1024x600.jpg"/></li>
 			</ul>
 		</div>
+
+		<h2>Code</h2>
+		<code>$('.slider').carousel({dots: true, infinite: true, speed: 200});</code>
+
+		<hr/>
+
+		<h1>CHECKBOX</h1>
+		<h3>Custom Checkbox Styling</h3>
+		<input type="checkbox" class="checkbox" checked />
+		<h2>Code</h2>
+		<code>$('.checkbox').checkBox();</code>
+
+		<hr/>
+
+		<h1>RADIO</h1>
+		<h3>Custom Radio Button Styling</h3>
+		<input type="radio" name="radio" class="radio" value="1" checked/>
+		<input type="radio" name="radio" class="radio" value="2" />
+		<input type="radio" name="radio" class="radio" value="3" />
+		<h2>Code</h2>
+		<code>$('.radio').radio();</code>
+
+		<hr/>
+
+		<h1>DROPDOWN</h1>
+		<h3>Custom Select Dropdown</h3>
+		<select class="select" name="select">
+			<option value="1">First</option>
+			<option value="2">Second</option>
+			<option value="3">Third</option>
+			<option value="4">Fourth</option>
+			<option value="5">Fifth</option>
+		</select>
+		<h2>Code</h2>
+		<code>$('.select').dropDown();</code>
+
+		<hr/>
+
+		<a class="button" href="https://github.com/kdubbicles/handsome.js">Open In Github</a> <a class="button" href="https://github.com/kdubbicles/handsome.js/archive/master.zip">Download Zipped (29k)</a>
+
+
 	</div>
 </body>
 </html>
