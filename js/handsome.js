@@ -865,7 +865,7 @@ $.fn.checkBox = function (options) {
 /*
 
 ----------------
---- Radio ---
+--- RadioButton ---
 ----------------
 
 Options:
@@ -947,6 +947,123 @@ $.fn.radio = function (options) {
 
 /*
 
------ End Radio -----
+----- End RadioButton -----
+
+*/
+
+/*
+
+----------------
+--- Dropdown ---
+----------------
+
+Options:
+
+none
+
+Usage:
+
+$(element).dropDown();
+
+*/
+
+handsome.Dropdown = (function() {
+
+    'use strict';
+
+    function Dropdown(element) {
+
+        this.targetSelect = $(element);
+        this.parentWrapper = null;
+        this.dropdownTrigger = null;
+        this.dropdownOptions = null;
+        this.selectOptions = null;
+
+        this.openDropdown = functionBinder(this.openDropdown, this);
+        this.closeDropdown = functionBinder(this.closeDropdown, this);
+        this.makeSelection = functionBinder(this.makeSelection, this);
+
+        this.init();
+
+    }
+
+    Dropdown.prototype.init = function() {
+        if (this.targetSelect.get(0).tagName === "SELECT") {
+                if (!this.targetSelect.parent().hasClass('bt-dropdown')) {
+                   this.buildOut();
+                }
+        }
+    };
+
+    Dropdown.prototype.buildOut = function() {
+
+        var self = this, targetWidth = null;
+
+        this.parentWrapper = $(this.targetSelect).wrap('<div class="bt-dropdown" tabindex="' + this.targetSelect.attr('tabindex') + '"/>').parent();
+        this.dropdownTrigger = $('<a class="bt-dropdown-toggle" href="javascript:void(0)">' + this.targetSelect.find('option:selected').text() + '<span class="icon"></span></a>').appendTo(this.parentWrapper);
+        this.selectOptions = this.targetSelect.find('option');
+        this.dropdownOptions = $('<ul class="bt-dropdown-options"></ul>').appendTo(this.parentWrapper);
+        $(this.selectOptions).each(function(index) {
+            $('<li class="bt-dropdown-option"><a href="javascript:void(0)" data-value="' + $(this).val() + '">' + $(this).text() + '</a></li>').appendTo(self.dropdownOptions);
+        });
+        targetWidth = this.dropdownOptions.width() - (parseInt(this.dropdownTrigger.css('padding-left')) + parseInt(this.dropdownTrigger.css('padding-right')));
+        this.dropdownTrigger.width(targetWidth);
+        this.parentWrapper.addClass('initialized');
+        this.parentWrapper.addClass('closed');
+        this.targetSelect.hide();
+        this.intializeEvents();
+
+    };
+
+    Dropdown.prototype.intializeEvents = function() {
+        this.dropdownTrigger.on('click', this.openDropdown);
+        this.parentWrapper.on('blur', this.closeDropdown);
+        this.dropdownOptions.find('li a').on('click', {target: this}, this.makeSelection);
+    };
+
+    Dropdown.prototype.setTitle = function() {
+        this.dropdownTrigger.html(this.targetSelect.find('option:selected').text() + '<span class="icon"></span>');
+    };
+
+    Dropdown.prototype.openDropdown = function() {
+        $('.bt-dropdown').removeClass('open');
+        this.parentWrapper.removeClass('closed');
+        this.parentWrapper.addClass('open');
+    };
+
+    Dropdown.prototype.closeDropdown = function() {
+        this.parentWrapper.removeClass('open');
+        this.parentWrapper.addClass('closed');
+    };
+
+    Dropdown.prototype.makeSelection = function(event) {
+        var clickIndex = null;
+        this.targetSelect.get(0).value = $(event.target).data('value');
+        clickIndex = $(event.target).parent().index();
+        this.targetSelect.find('option').get(clickIndex).selected = 'selected';
+        this.closeDropdown();
+        this.setTitle();
+    };
+
+    return Dropdown;
+
+}());
+
+
+$.fn.dropDown = function (options) {
+
+    'use strict';
+
+    var dropdowns = [];
+
+    return this.each(function (index) {
+        dropdowns[index] = new handsome.Dropdown(this, options);
+    });
+
+};
+
+/*
+
+----- End Dropdown -----
 
 */

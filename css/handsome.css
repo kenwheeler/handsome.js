@@ -33,6 +33,10 @@
 .bt-checker { display: block; height: 10px; width: 10px; position: relative; padding: 5px; background: url('../img/sierramist.png') -245px -95px no-repeat;}
 .bt-checker.checked { background-position: -245px -45px; }
 
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 240dpi) { 
+	.bt-checker { background: url('../img/sierramist@2x.png') -290px -95px no-repeat; -webkit-background-size: 900px 200px; }
+}
+
 /* RADIO */
 
 .bt-radio { display: inline-block; height: 16px; width: 16px; position: relative; background: white; border: 1px solid black; }
@@ -40,5 +44,20 @@
 .bt-radio-trigger.checked { background-position: -397px -47px; }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 240dpi) { 
-	.bt-checker { background: url('../img/sierramist@2x.png') -290px -95px no-repeat; -webkit-background-size: 900px 200px; }
+	.bt-radio-trigger { background: url('../img/sierramist@2x.png') -397px -97px no-repeat; -webkit-background-size: 900px 200px; }
 }
+
+/* SELECT */
+
+.bt-dropdown { display: inline-block; position: relative; outline: none; background: white; border: 1px solid black; }
+.bt-dropdown-toggle { display: block; padding: 5px 30px 5px 10px; position: relative; color: black; text-decoration: none; text-align: left;}
+.bt-dropdown-toggle span.icon { display: inline-block; position: absolute; padding: 5px; right: 5px; height: 10px; width: 10px; background: url('../img/sierramist.png') -446px -42px no-repeat;}
+.bt-dropdown-options { list-style-type: none; margin: 0px; padding: 0px; background: white; width: 100%; right: -1px; border: 1px solid black; max-height: 250px; overflow: scroll;}
+.bt-dropdown.initialized .bt-dropdown-options { position: absolute; }
+.bt-dropdown.closed .bt-dropdown-options { display: none; }
+.bt-dropdown.open .bt-dropdown-toggle { color: #ccc; }
+.bt-dropdown.open .bt-dropdown-toggle span.icon { background-position: -446px -92px; }
+.bt-dropdown-option { list-style-type: none; margin: 0px; padding: 0px; text-align: left;}
+.bt-dropdown-option a { color: black; text-decoration: none; display: block; padding: 5px 10px; }
+.bt-dropdown-option:hover { background: black; }
+.bt-dropdown-option:hover a { color: white; }

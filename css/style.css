@@ -104,7 +104,29 @@ a.button {
     box-shadow: 0 6px 6px -6px black;
 }
 
-.bt-radio-trigger.checked {
+.bt-dropdown {
+    border: 2px solid #aa0000;
+    box-shadow: 0 6px 6px -6px black;
+}
+
+.bt-dropdown:focus { box-shadow: 0 6px 6px -6px black, 0px 0px 10px #aa0000; }
+
+.bt-dropdown-options {
+    border: 2px solid #aa0000;
+    border-top: none;
+    right: -2px;
+}
+
+.bt-dropdown-option:hover {
+    background: #aa0000;
+}
+
+.bt-dropdown-option:hover a {
+    color: #fff;
+}
+
+.bt-dropdown-option a, .bt-dropdown-toggle {
+    font-size: 18px;
 }
 
 @media only screen and (min-width: 1025px) {
