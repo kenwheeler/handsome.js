@@ -105,12 +105,11 @@ a.button {
     box-shadow: 0 6px 6px -6px black;
 }
 
-.bt-dropdown:focus { box-shadow: 0 6px 6px -6px black, 0px 0px 10px #aa0000; }
-
 .bt-dropdown-options {
     border: 2px solid #aa0000;
     border-top: none;
     right: -2px;
+    box-shadow: 0 6px 6px -6px black;
 }
 
 .bt-dropdown-option:hover {
@@ -143,5 +142,9 @@ a.button {
 @media only screen and (max-width: 1024px) {
     .content {
         margin: 20px;
+    }
+    code {
+        word-wrap: break-word !important;
+        max-width: 240px;
     }
 }

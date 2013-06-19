@@ -50,14 +50,19 @@
 /* SELECT */
 
 .bt-dropdown { display: inline-block; position: relative; outline: none; background: white; border: 1px solid black; }
-.bt-dropdown-toggle { display: block; padding: 5px 30px 5px 10px; position: relative; color: black; text-decoration: none; text-align: left;}
-.bt-dropdown-toggle span.icon { display: inline-block; position: absolute; padding: 5px; right: 5px; height: 10px; width: 10px; background: url('../img/sierramist.png') -446px -42px no-repeat;}
+.bt-dropdown-toggle { display: block; padding: 10px 30px 10px 10px; position: relative; color: black; text-decoration: none; text-align: left;}
+.bt-dropdown-toggle span.icon { display: inline-block; position: absolute; padding: 10px; right: 0px; height: 10px; width: 10px; background: url('../img/sierramist.png') -445px -44px no-repeat;}
 .bt-dropdown-options { list-style-type: none; margin: 0px; padding: 0px; background: white; width: 100%; right: -1px; border: 1px solid black; max-height: 250px; overflow: scroll;}
 .bt-dropdown.initialized .bt-dropdown-options { position: absolute; }
 .bt-dropdown.closed .bt-dropdown-options { display: none; }
 .bt-dropdown.open .bt-dropdown-toggle { color: #ccc; }
-.bt-dropdown.open .bt-dropdown-toggle span.icon { background-position: -446px -92px; }
-.bt-dropdown-option { list-style-type: none; margin: 0px; padding: 0px; text-align: left;}
-.bt-dropdown-option a { color: black; text-decoration: none; display: block; padding: 5px 10px; }
+.bt-dropdown.open .bt-dropdown-toggle span.icon { background-position: -445px -94px; }
+.bt-dropdown-option { list-style-type: none; margin: 0px; padding: 0px; text-align: left; border-top: 1px solid #ccc;}
+.bt-dropdown-option a { color: black; text-decoration: none; display: block; padding: 10px 10px; }
 .bt-dropdown-option:hover { background: black; }
 .bt-dropdown-option:hover a { color: white; }
+.bt-dropdown.notmobile select { display: none; }
+.bt-dropdown.mobile select { font-size: 16px; position: absolute; display: block; z-index: 9999; opacity: 0; --webkit-appearance: menulist-button; top: 0px; left: 0px; padding: 0px; margin: 0px;}
+
+
+
