@@ -279,8 +279,10 @@ handsome.Dropdown = (function() {
         this.parentWrapper.addClass('closed');
         if (mobileDetect() === true && this.options.useNativeMobile === true) {
             this.parentWrapper.addClass('mobile');
-            this.targetSelect.width(this.parentWrapper.width());
-            this.targetSelect.height(this.parentWrapper.height());
+            $(window).load(function(){
+                this.targetSelect.width(this.parentWrapper.width());
+                this.targetSelect.height(this.parentWrapper.height());
+            });
         } else {
             this.parentWrapper.addClass('notMobile');
         }
