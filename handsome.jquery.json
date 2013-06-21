@@ -1,0 +1,38 @@
+{
+    "name": "Handsome",
+    "title": "Handsome",
+    "description": "A jQuery plugin for making your UI handsome",
+    "keywords": [
+        "select",
+        "dropdown",
+        "checkbox",
+        "radio",
+        "carousel"
+    ],
+    "version": "0.0.1",
+    "author": {
+        "name": "Ken Wheeler",
+        "url": "http://www.dubmediagroup.com"
+    },
+    "maintainers": [
+        {
+            "name": "Ken Wheeler",
+            "email": "dubmediagroup@gmail.com",
+            "url": "http://www.dubmediagroup.com"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "GPLv2",
+            "url": "http://www.example.com/licenses/gpl.html"
+        }
+    ],
+    "demo": "http://dubmediagroup.com/handsomejs/",
+    "bugs": "https://github.com/kdubbicles/handsome.js//issues",
+    "homepage": "https://github.com/kdubbicles/handsome.js/",
+    "docs": "https://github.com/kdubbicles/handsome.js/",
+    "download": "https://github.com/kdubbicles/handsome.js/archive/master.zip",
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}
