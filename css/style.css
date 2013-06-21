@@ -80,12 +80,6 @@ a.button {
     box-shadow:  0 8px 6px -8px black;
 }
 
-.slider li img {
-    position: relative;
-	width: 100%;
-    z-index: 8888;
-}
-
 .bt-checkbox { 
     margin: 20px auto;
     border: 2px solid #AA0000;
@@ -129,12 +123,6 @@ a.button {
     .content {
         width: 800px;
         margin: auto;
-    }
-
-    .bt-slider {
-    	position: relative;
-    	width: 800px;
-    	margin: 20px auto;
     }
 
 }
