@@ -106,11 +106,14 @@ a.button {
     box-shadow: 0 6px 6px -6px black;
 }
 
-.bt-dropdown-option:hover {
+.bt-dropdown-option:hover,
+.bt-dropdown-option:focus,
+.bt-dropdown-option.active {
     background: #aa0000;
 }
 
-.bt-dropdown-option:hover a {
+.bt-dropdown-option:hover a,
+.bt-dropdown-option.active a {
     color: #fff;
 }
 
