@@ -297,6 +297,7 @@ handsome.Dropdown = (function() {
         this.parentWrapper.on('focus', this.focusHandler);
         this.dropdownTrigger.on('click', this.openDropdown);
         this.parentWrapper.on('blur', this.closeDropdown);
+        this.dropdownTrigger.on('blur', this.closeDropdown);
         this.dropdownOptions.find('li a').on('click', {target: this}, this.makeSelection);
         this.dropdownOptions.find('li').on('mouseover', this.mouseInto);
         this.targetSelect.on('change', this.setTitle);
