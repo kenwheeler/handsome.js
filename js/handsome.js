@@ -392,7 +392,7 @@ handsome.Dropdown = (function() {
         this.targetSelect.find('option').get(clickIndex).selected = 'selected';
         
         var btClass = (this.targetSelect.find('option:selected').data('btclass')) ? this.targetSelect.find('option:selected').data('btclass') : '' ;
-        this.dropdownTrigger.attr('class', ddClass + ' ' + btClass);
+        this.dropdownTrigger.attr('class', this.dropdownTrigger.attr('class').split(' ')[0] + ' ' + btClass);
         
         this.targetSelect.trigger('change');
         this.closeDropdown();
