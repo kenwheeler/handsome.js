@@ -270,13 +270,15 @@ handsome.Dropdown = (function() {
     Dropdown.prototype.buildOut = function() {
 
         var self = this, targetWidth = null;
+        var btclass = (this.targetSelect.find('option:selected').data('btclass')) ? this.targetSelect.find('option:selected').data('btclass') : '' ;
 
         this.parentWrapper = $(this.targetSelect).wrap('<div class="bt-dropdown" tabindex="' + this.targetSelect.attr('tabindex') + '"/>').parent();
-        this.dropdownTrigger = $('<a class="bt-dropdown-toggle" href="javascript:void(0)">' + this.targetSelect.find('option:selected').text() + '<span class="icon"></span></a>').appendTo(this.parentWrapper);
+        this.dropdownTrigger = $('<a class="bt-dropdown-toggle '+btclass+ '" href="javascript:void(0)">' + this.targetSelect.find('option:selected').text() + '<span class="icon"></span></a>').appendTo(this.parentWrapper);
         this.selectOptions = this.targetSelect.find('option');
         this.dropdownOptions = $('<ul class="bt-dropdown-options"></ul>').appendTo(this.parentWrapper);
         $(this.selectOptions).each(function(index) {
-            $('<li class="bt-dropdown-option"><a href="javascript:void(0)" data-value="' + $(this).val() + '">' + $(this).text() + '</a></li>').appendTo(self.dropdownOptions);
+            var btclass = ($(this).data('btclass')) ? $(this).data('btclass') : '' ;
+            $('<li class="bt-dropdown-option '+ btclass +'"><a href="javascript:void(0)" data-value="' + $(this).val() + '">' + $(this).text() + '</a></li>').appendTo(self.dropdownOptions);
         });
         targetWidth = this.options.width || this.targetSelect.outerWidth();
         this.dropdownTrigger.width(targetWidth);
@@ -388,6 +390,10 @@ handsome.Dropdown = (function() {
         this.targetSelect.get(0).value = $(event.target).data('value');
         clickIndex = $(event.target).parent().index();
         this.targetSelect.find('option').get(clickIndex).selected = 'selected';
+        
+        var btClass = (this.targetSelect.find('option:selected').data('btclass')) ? this.targetSelect.find('option:selected').data('btclass') : '' ;
+        this.dropdownTrigger.attr('class', this.dropdownTrigger.attr('class').split(' ')[0] + ' ' + btClass);
+        
         this.targetSelect.trigger('change');
         this.closeDropdown();
     };
