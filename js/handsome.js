@@ -300,7 +300,8 @@ handsome.Dropdown = (function() {
         this.dropdownTrigger.on('click', this.openDropdown);
         this.parentWrapper.on('blur', this.closeDropdown);
         this.dropdownTrigger.on('blur', this.closeDropdown);
-        this.dropdownOptions.find('li a').on('click', {target: this}, this.makeSelection);
+        this.dropdownOptions.on('mousedown', function(e){ return false; });
+        this.dropdownOptions.find('li a').on('mousedown', {target: this}, this.makeSelection);
         this.dropdownOptions.find('li').on('mouseover', this.mouseInto);
         this.targetSelect.on('change', this.setTitle);
         $(window).on('keydown', this.keysHandler);
@@ -387,7 +388,7 @@ handsome.Dropdown = (function() {
 
     Dropdown.prototype.makeSelection = function(event) {
         var clickIndex = null;
-        this.targetSelect.get(0).value = $(event.target).data('value');
+        this.targetSelect.get(0).value = $(event.currentTarget).data('value');
         clickIndex = $(event.target).parent().index();
         this.targetSelect.find('option').get(clickIndex).selected = 'selected';
         
