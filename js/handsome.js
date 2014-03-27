@@ -67,7 +67,7 @@ handsome.Checkbox = (function() {
 
     Checkbox.prototype.init = function() {
         if (this.targetCheck.get(0).tagName === "INPUT") {
-            if (this.targetCheck.attr('type') === "checkbox")
+            if (this.targetCheck.prop('type') === "checkbox")
                 if (!this.targetCheck.parent().hasClass('bt-checkbox')) {
                    this.buildOut();
                 }
@@ -78,7 +78,7 @@ handsome.Checkbox = (function() {
         this.parentWrapper = $(this.targetCheck).wrap('<div class="bt-checkbox"/>').parent();
         this.checker = $('<a href="javascript:void(0)" class="bt-checker"/>').appendTo(this.parentWrapper);
         this.targetCheck.hide();
-        if(this.targetCheck.attr('checked') === "checked") {
+        if(this.targetCheck.prop('checked')) {
             this.checker.addClass('checked');
         }
         this.intializeEvents();
@@ -91,10 +91,10 @@ handsome.Checkbox = (function() {
     Checkbox.prototype.checkClicked = function() {
         if (this.checker.hasClass('checked')) {
             this.checker.removeClass('checked');
-            this.targetCheck.attr('checked', false);
+            this.targetCheck.prop('checked', false);
         } else {
             this.checker.addClass('checked');
-            this.targetCheck.attr('checked', true);
+            this.targetCheck.prop('checked', true);
         }
     };
 
@@ -157,7 +157,7 @@ handsome.Radio = (function() {
 
     Radio.prototype.init = function() {
         if (this.targetRadio.get(0).tagName === "INPUT") {
-            if (this.targetRadio.attr('type') === "radio")
+            if (this.targetRadio.prop('type') === "radio")
                 if (!this.targetRadio.parent().hasClass('bt-radio')) {
                    this.buildOut();
                 }
@@ -168,7 +168,7 @@ handsome.Radio = (function() {
         this.parentWrapper = $(this.targetRadio).wrap('<div class="bt-radio"/>').parent();
         this.radioTrigger = $('<a href="javascript:void(0)" class="bt-radio-trigger"/>').appendTo(this.parentWrapper);
         this.targetRadio.hide();
-        if(this.targetRadio.attr('checked') === "checked") {
+        if(this.targetRadio.prop('checked')) {
             this.radioTrigger.addClass('checked');
         }
         this.radioSisters = $("input:radio[name='" + this.targetRadio.attr('name') + "']");
@@ -181,10 +181,10 @@ handsome.Radio = (function() {
     };
 
     Radio.prototype.triggerClicked = function() {
-            $('.bt-radio-trigger[data-radioname=' + this.targetRadio.attr('name') + ']').removeClass('checked');
+            $('.bt-radio-trigger[data-radioname=' + this.targetRadio.prop('name') + ']').removeClass('checked');
             this.radioTrigger.addClass('checked');
-            this.radioSisters.attr('checked', false);
-            this.targetRadio.attr('checked', true);
+            this.radioSisters.prop('checked', false);
+            this.targetRadio.prop('checked', true);
     };
 
     return Radio;
